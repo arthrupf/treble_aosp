@@ -9,7 +9,8 @@ echo "--------------------------------------"
 echo
 
 set -e
-
+rm -rf $GITHUB_WORKSPACE/aosp/.repo/projects/*
+rm -rf $GITHUB_WORKSPACE/aosp/out
 export BUILD_NUMBER="$(date +%y%m%d)"
 
 [ -z "$OUTPUT_DIR" ] && OUTPUT_DIR="$PWD/output"
@@ -31,7 +32,7 @@ initRepos() {
 
 syncRepos() {
     echo "--> Syncing repos"
-    repo sync -c --force-sync --no-clone-bundle --no-tags -j$(nproc --ignore=2) || repo sync -c --force-sync --no-clone-bundle --no-tags -j$(nproc --ignore=2)
+    repo sync -j8
     echo
 }
 
