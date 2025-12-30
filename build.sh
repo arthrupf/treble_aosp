@@ -18,13 +18,10 @@ export BUILD_NUMBER="$(date +%y%m%d)"
 
 initRepos() {
     echo "--> Initializing workspace"
-    repo init -u https://android.googlesource.com/platform/manifest -b android-16.0.0_r2 --git-lfs
+    repo init -u https://android.googlesource.com/platform/manifest -b aosp-main --git-lfs
     echo
 
     echo "--> Preparing local manifest"
-    mkdir -p .repo/local_manifests
-    cp $BUILD_ROOT/build/default.xml .repo/local_manifests/default.xml
-    cp $BUILD_ROOT/build/remove.xml .repo/local_manifests/remove.xml
     echo
 }
 
