@@ -15,7 +15,8 @@ export BUILD_NUMBER="$(date +%y%m%d)"
 [ -z "$OUTPUT_DIR" ] && OUTPUT_DIR="$PWD/output"
 [ -z "$BUILD_ROOT" ] && BUILD_ROOT="$PWD/treble_aosp"
 [ -z "$BUILD_VARIANT" ] && BUILD_VARIANT="$1"
-
+sudo apt update -y
+sudo apt-get install -y repo
 initRepos() {
     echo "--> Initializing workspace"
     repo init -u https://android.googlesource.com/platform/manifest -b aosp-main --git-lfs
