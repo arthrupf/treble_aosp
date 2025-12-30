@@ -27,8 +27,9 @@ syncRepos() {
     echo "--> Syncing repos"
     repo sync -j8 --no-clone-bundle --no-tags
     echo
+    echo "--> Preparing local manifest"
+    echo
 }
-
 applyPatches() {
     echo "--> Applying TrebleDroid patches"
     bash $BUILD_ROOT/patch.sh $BUILD_ROOT trebledroid
