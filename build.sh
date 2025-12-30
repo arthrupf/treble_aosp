@@ -9,27 +9,31 @@ echo "--------------------------------------"
 echo
 
 set -e
-rm -rf $GITHUB_WORKSPACE/aosp/.repo/projects/*
-rm -rf $GITHUB_WORKSPACE/aosp/out
+
 export BUILD_NUMBER="$(date +%y%m%d)"
 
 [ -z "$OUTPUT_DIR" ] && OUTPUT_DIR="$PWD/output"
 [ -z "$BUILD_ROOT" ] && BUILD_ROOT="$PWD/treble_aosp"
 [ -z "$BUILD_VARIANT" ] && BUILD_VARIANT="$1"
-sudo apt update -y
-sudo apt install repo -y
+
 initRepos() {
     echo "--> Initializing workspace"
-    repo init -u https://android.googlesource.com/platform/manifest -b android-latest-release --git-lfs --depth=1
+    repo init -u https://android.googlesource.com/platform/manifest -b android-16.0.0_r2 --git-lfs
     echo
+
+    echo "--> Preparing local manifest"
+    mkdir -p .repo/local_manifests
+    cp $BUILD_ROOT/build/default.xml .repo/local_manifests/default.xml
+    cp $BUILD_ROOT/build/remove.xml .repo/local_manifests/remove.xml
+    echo
+}
 
 syncRepos() {
     echo "--> Syncing repos"
-    repo sync -j8 --no-clone-bundle --no-tags
-    echo
-    echo "--> Preparing local manifest"
+    repo sync -c --force-sync --no-clone-bundle --no-tags -j$(nproc --ignore=2) || repo sync -c --force-sync --no-clone-bundle --no-tags -j$(nproc --ignore=2)
     echo
 }
+
 applyPatches() {
     echo "--> Applying TrebleDroid patches"
     bash $BUILD_ROOT/patch.sh $BUILD_ROOT trebledroid
