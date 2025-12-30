@@ -23,16 +23,9 @@ initRepos() {
     repo init -u https://android.googlesource.com/platform/manifest -b android-latest-release --git-lfs --depth=1
     echo
 
-    echo "--> Preparing local manifest"
-    mkdir -p .repo/local_manifests
-    cp $BUILD_ROOT/build/default.xml .repo/local_manifests/default.xml
-    cp $BUILD_ROOT/build/remove.xml .repo/local_manifests/remove.xml
-    echo
-}
-
 syncRepos() {
     echo "--> Syncing repos"
-    repo sync -j8
+    repo sync -j8 --no-clone-bundle --no-tags
     echo
 }
 
