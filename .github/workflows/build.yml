@@ -23,7 +23,7 @@ jobs:
           rm -rf ./* || true
           rm -rf ./.??* || true
           ls -la ./
-
+run: rm -f .repo/local_manifests/*.xml
       - name: Setup Environment
         run: |
           mkdir -p ~/.ssh
